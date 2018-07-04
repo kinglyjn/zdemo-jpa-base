@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1"
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="zdemo-jpa-base" transaction-type="RESOURCE_LOCAL">
+		<!-- 
+			配置jpa实现产品 
+			1. 实际上配置的是javax.persistence.spi.PersistenceProvider接口的实现类 
+			2. 若jpa项目中只有一个jpa的实现产品，也可以不配置该节点 
+		-->
+		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+
+		<!-- 添加持久化类 -->
+		<class>jpa01.hello.Customer</class>
+		<class>jpa02.many2one_oneway.Customer</class>
+		<class>jpa02.many2one_oneway.Order</class>
+		<class>jpa03.one2many_oneway.Customer</class>
+		<class>jpa03.one2many_oneway.Order</class>
+		<class>jpa04.many2one_twoway.Customer</class>
+		<class>jpa04.many2one_twoway.Order</class>
+		<class>jpa05.one2one_foreign_twoway.Dept</class>
+		<class>jpa05.one2one_foreign_twoway.Mgr</class>
+		<class>jpa06.many2many_twoway.Category</class>
+		<class>jpa06.many2many_twoway.Item</class>
+		<class>jpa07.second_ehcache.Customer</class>
+		<class>jpa07.second_ehcache.Order</class>
+		<class>jpa08.jpql.Customer</class>
+		<class>jpa08.jpql.Order</class>
+		
+		
+		<!-- 
+			配置使用二级缓存 
+			ALL: 所有的实体类都将被缓存
+			NONE: 所有的实体类都不被缓存
+			ENABLE_SELECTIVE: 标识 @Cacheable(true) 注解的实体都将被缓存
+			DISABLE_SELECTIVE: 除了标识 @Cacheable(false) 注解的实体都将被缓存
+			UNSPECIFIED: 默认值，jpa实现产品的默认值将被使用
+		-->
+		<shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
+
+
+		<!-- 配置jpa实现产品的具体属性（hibernate） -->
+		<properties>
+			<!-- datasource -->
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://dbserver:3306/test" />
+			<property name="javax.persistence.jdbc.user" value="root" />
+			<property name="javax.persistence.jdbc.password" value="23wesdxc" />
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+			<property name="hibernate.c3p0.max_size" value="10" />
+			<property name="hibernate.c3p0.min_size" value="5" />
+			<property name="hibernate.c3p0.acquire_increment" value="2" />
+			<property name="hibernate.c3p0.max_statements" value="10" />
+			<property name="hibernate.c3p0.timeout" value="2000" />
+			<property name="hibernate.c3p0.idle_test_period" value="2000" />
+			
+			<!-- hibernate base -->
+			<property name="hibernate.format_sql" value="true" />
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+			
+			<!-- cache -->
+			<property name="hibernate.cache.use_second_level_cache" value="true" />
+			<property name="hibernate.cache.use_query_cache" value="true" />
+			<property name="hibernate.cache.region.factory_class" value="org.hibernate.cache.ehcache.EhCacheRegionFactory" />
+		</properties>
+	</persistence-unit>
+</persistence>
